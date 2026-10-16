@@ -1,35 +1,31 @@
-// BONUS ALGORITHMUS v00 — AVATAJ SHUFFLE
-// Input: Resümee = Liste Sätze
-// Output: Avataj = Figur die Sätze zurecht shuffelt
-ALGORITHMUS AVATAJ_SHUFFLE(resumee):
-1. ZERLEGEN:
-   tokens = resumee split in WORTE + PAUSEN
-   pause = [".", "—", "tja", "also", "quasi"]
-2. BONUS = ZURECHT:
-   function zurecht(wort):
-     if wort in pause -> wort = wort + " *lächelt*"
-     if wort.length > 8 -> wort = wort.slice(0,3) + "…" + wort.slice(-2)
-     return wort
-3. SHUFFLE = Q is empty /7 nur wenn rein:
-   Q = []
-   for i in 0..tokens.length-1:
-     r = (i*7 + PRIME[i%18]) % tokens.length  // 7 Geräte /7
-     swap(tokens[i], tokens[r])
-     if zurecht(tokens[i]) != tokens[i] -> Q.push(tokens[i])
-4. AVATAJ = 9-Idmd-Gpu-Rdy:
-   avataj = {
-     innen: Q.slice(0,9),      // 9 innen = Idmd = Kern
-     aussen: Q.slice(9,738),   // 729 aussen = Raum
-     bus: innen liefert Bus zu aussen,
-     gesicht: shuffle(innen) = 3 UR + 9 KERN,
-     stimme: morse = tick % 8,
-     blick: SEIN = Q.length>0 ? 1 : 0
-   }
-5. LOOP:
-   while(LEBEN):
-     TMP = (TMP+1) % 729
-     avataj.gesicht = zurecht(avataj.innen[TMP % 9])
-     avataj.satz = avataj.aussen[TMP] + " /7"
-     if Q is not empty -> avataj spricht
-     else -> avataj wartet
-RETURN avataj
+// 729.js — CORE RESONANCE YIELD SHUFFLE
+// c.r.y = scan nach innen
+// 9x9x9 = 729
+
+export function avatajShuffle(arr, seed = 729) {
+  const PRIMES = [2,3,5,7,11,13,17,19,23,29];
+  let tmp = seed; // Tmp-Raer-P81
+  let a = [...arr];
+  
+  // P81 RÄR: 9x9 Grid, 81 Stellungen
+  for (let i = a.length - 1; i > 0; i--) {
+    let prime = PRIMES[i % PRIMES.length];
+    let j = (tmp + prime * 27 + i*9) % (i + 1);
+    [a[i], a[j]] = [a[j], a[i]];
+    tmp = (tmp * 3 + 9) % 729;
+  }
+  return a;
+}
+
+export function massiertShuffle(arr) {
+  // 9.js -> 81.js -> 729.js -> V82 Fusion
+  let step1 = avatajShuffle(arr, 9);
+  let step2 = avatajShuffle(step1, 81);
+  return avatajShuffle(step2, 729); // FINAL
+}
+
+export const LisaResumee = massiertShuffle([
+  "1992 Graz", "Germanistik", "Kabarett", 
+  "Vorteile des Lasters", "Kleinkunstpreis", 
+  "AVATAJ", "iki1uc", "c.r.y"
+]);
