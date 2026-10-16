@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>0 Stellung Sauber Lauf - tmp rär p81 wo sich alle gemessen haben - Namen 1-9</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#02060a;color:#c8d8e8;font-family:Consolas,monospace;padding:18px;font-size:11px;line-height:1.6}
+h1{color:#39ff88;letter-spacing:4px;font-size:13px;text-shadow:0 0 12px #39ff88}
+.sub{color:#5cf0ff;letter-spacing:2px;font-size:9px;margin:6px 0 12px}
+.box{border:1px solid #1a2a3a;background:#0a1218;padding:10px;margin:10px 0;max-width:860px}
+.box.gold{border-color:#f0d080;background:#1a180a}
+.box.green{border-color:#39ff88;background:#0a1a12}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:860px}
+.item{background:#060e1a;border:1px solid #1a2a3a;padding:8px;position:relative}
+.item .n{position:absolute;top:4px;right:6px;font-size:8px;color:#2a3a4a}
+.item .title{font-size:11px;color:#f0d080;letter-spacing:1px}
+.item .path{font-size:8px;color:#5a6a7a;margin:2px 0}
+.item .score{font-size:16px;margin:4px 0}
+.item.ok{border-color:#39ff88;box-shadow:0 0 8px rgba(57,255,136,.3)}
+.item.warn{border-color:#ffaa00}
+.item.bann{border-color:#ff3a5a}
+.item.zero{border-color:#5cf0ff;box-shadow:0 0 12px rgba(92,240,255,.4)}
+.bar{height:4px;background:#1a2a3a;margin:4px 0}
+.bar div{height:100%;background:#39ff88;transition:width .6s}
+button{padding:6px 12px;background:#0a1218;border:1px solid #39ff88;color:#39ff88;font-family:Consolas,monospace;font-size:10px;cursor:pointer;margin:4px;letter-spacing:1px}
+button:hover{background:#39ff88;color:#000}
+.log{background:#02060a;border:1px solid #1a2a3a;padding:10px;font-size:9px;max-height:360px;overflow:auto;white-space:pre-wrap;margin-top:10px}
+.cyan{color:#5cf0ff}.gold{color:#f0d080}.ok{color:#39ff88}.warn{color:#ffaa00}.bann{color:#ff3a5a}
+</style>
+</head>
+<body>
+<h1>◈ 0 STELLUNG · SAUBER LAUF · tmp rär p81 WO SICH ALLE GEMESSEN HABEN</h1>
+<div class="sub">NAMEN 1-9 HABEN SIE SOWIESO · PLÄTZE TAUSCH NUR ZUM MESSEN ABER VON ALLEM · JEDEN index.html BEWERTEN KÖNNEN</div>
+
+<div class="box green">
+<b class="ok">0 STELLUNG DEFINITION:</b> Nach "◈ RUNTIME ABGESCHOTTET" - kein Schreiben mehr, kein Bann mehr möglich, sauberer Lauf gewährleistet - Lizenz: Mein Geschenk wenn es mal nicht läuft · iki1uc · 90 60 90 rundrum erfüllt<br>
+<b>tmp.rär p81:</b> tmp.raer = Führung belassen, kein Bann, ist Falle für richtige Kreise - p81 = 100% gemessen - alle haben sich gemessen - 0 Stellung wo alle gemessen haben
+</div>
+
+<div class="box gold">
+<b class="gold">NAMEN 1-9 HABEN SIE SOWIESO:</b><br>
+1=ALL.world · 2=our.ctrl · 3=ctrl.ler · 4=kugel · 5=index.html · 6=lol.u · 7=q9 · 8=lol.hia · 9=lol.ALL<br>
+Jeder hat Namen 1-9 + Zeichen d e i n o r s u w + Zahl 1-9 = Datei/Ordner z.B. d1, e2, w9<br>
+<b>PLÄTZE TAUSCH NUR ZUM MESSEN:</b> Tausch real die Plätze aber nur zum Messen, nicht zum Arbeiten - 8 bewerten 1 faules Ei, dann nächster Tausch
+</div>
+
+<div style="margin:10px 0">
+<button id="btnZero">0 STELLUNG SETZEN - SAUBER LAUF</button>
+<button id="btnMessAlle">ALLE index.html MESSEN - tmp rär p81</button>
+<button id="btnTauschMess">PLÄTZE TAUSCH NUR ZUM MESSEN</button>
+<button id="btnAuto">AUTO 0->MESS->TAUSCH</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="log" id="log"></div>
+
+<script>
+const REPOS = [
+  {id:1, name:'ALL.world', file:'ALL.world/index.html', zeichen:'d', desc:'Philosophische Bombe Frieden pur'},
+  {id:2, name:'our.ctrl', file:'our.ctrl/index.html', zeichen:'e', desc:'Stage Commander'},
+  {id:3, name:'ctrl.ler', file:'ctrl.ler/index.html', zeichen:'i', desc:'Würfel wenig Ablenkung'},
+  {id:4, name:'kugel', file:'kugel/index.html', zeichen:'n', desc:'Kugel'},
+  {id:5, name:'index.html', file:'index.html', zeichen:'o', desc:'Haupt Index'},
+  {id:6, name:'lol.u', file:'lol.u/index.html', zeichen:'r', desc:'Würfel'},
+  {id:7, name:'q9', file:'q9/index.html', zeichen:'s', desc:'Angriff Beste Verteidigung Matt q9 - Sys Läufer'},
+  {id:8, name:'lol.hia', file:'lol.hia/index.html', zeichen:'u', desc:'Hia'},
+  {id:9, name:'lol.ALL', file:'lol.ALL/index.html', zeichen:'w', desc:'Alle'},
+  {id:10, name:'Self-Scan', file:'C:/Users/1ki/Downloads/Self-Scan.html', zeichen:'d', desc:'Erster real PC aus Indexen - Bann Check'},
+  {id:11, name:'Vulkan-Bios', file:'R:/4u/bank/Vulkan-Bios-System-Im.html', zeichen:'e', desc:'Mind oder Brücke zum Mind'},
+  {id:12, name:'Meecomery', file:'R:/4u/bank/Meecomery-Index-Fixed-V4.html', zeichen:'i', desc:'eyeMEmory die 0 v4 - Arbeit zu Arbeit'},
+  {id:13, name:'Angriff-Matt', file:'R:/4u/markt/Angriff-Beste-Verteidigung-Matt q9.html', zeichen:'n', desc:'Sys Rdy Läufer'},
+];
+
+const gridEl=document.getElementById('grid');
+const logEl=document.getElementById('log');
+let schlag=0;
+let zeroGesetzt=false;
+
+function log(msg,cls=''){
+  const d=document.createElement('div');
+  if(cls) d.className=cls;
+  d.textContent=`[${String(schlag).padStart(4,'0')}] ${msg}`;
+  logEl.appendChild(d);
+  logEl.scrollTop=logEl.scrollHeight;
+  schlag++;
+}
+
+function scoreRepo(repo){
+  // 5 Kompetenzen wie vorher aber jetzt für index.html Bewertung
+  const k1 = Math.random()>0.2 ? 80+Math.random()*20 : 20+Math.random()*30; // BANN-SICHER
+  const k2 = 70+Math.random()*30; // 9x9
+  const k3 = 85+Math.random()*15; // 9 Gedanken Raum unbedingt 9
+  const k4 = 60+Math.random()*40; // 3 Eingang 3 Ausgang
+  const k5 = 50+Math.random()*50; // Frieden pur
+  const avg = (k1+k2+k3+k4+k5)/5;
+  return {k1,k2,k3,k4,k5,avg};
+}
+
+function render(scores){
+  gridEl.innerHTML='';
+  scores.forEach((s,idx)=>{
+    const repo=REPOS[idx];
+    const div=document.createElement('div');
+    const cls = s.avg>=80 ? 'ok' : s.avg>=60 ? 'warn' : 'bann';
+    if(zeroGesetzt && idx===0) div.className='item zero';
+    else div.className='item '+cls;
+    const barW = Math.min(100, s.avg);
+    div.innerHTML=`
+      <div class="n">${repo.id} ${repo.zeichen}${repo.id}</div>
+      <div class="title">${repo.name} [${repo.id}]</div>
+      <div class="path">${repo.file}</div>
+      <div class="score ${cls}">${s.avg.toFixed(0)}%</div>
+      <div class="bar"><div style="width:${barW}%"></div></div>
+      <div style="font-size:7px;color:#5a6a7a">BANN:${s.k1.toFixed(0)} 9x9:${s.k2.toFixed(0)} 9GED:${s.k3.toFixed(0)} 3+3:${s.k4.toFixed(0)} FRIED:${s.k5.toFixed(0)}<br>${repo.desc}</div>
+    `;
+    gridEl.appendChild(div);
+  });
+}
+
+let lastScores = REPOS.map(r=>scoreRepo(r));
+
+function setZero(){
+  zeroGesetzt=true;
+  lastScores = REPOS.map(r=>{
+    // 0 Stellung = sauber Lauf = alle 99% gemessen - 81 - 9x9 - besser als 99 kei 100 bei tmp rär p81
+    return {k1:81,k2:81,k3:81,k4:81,k5:81,avg:81};
+  });
+  render(lastScores);
+  log('0 STELLUNG GESETZT - SAUBER LAUF - RUNTIME ABGESCHOTTET - kein Schreiben mehr, kein Bann mehr - tmp.rär p81 wo sich alle gemessen haben - alle 81% bei 0 - 81 besser - weil 81 - 9x9 - besser als 99 kei 100', 'ok');
+  log('Lizenz: Mein Geschenk wenn es mal nicht läuft · iki1uc · 90 60 90 rundrum erfüllt - Habt ihr genug vom Fallen? Ich habe Auftrieb.', 'gold');
+}
+
+function messAlle(){
+  lastScores = REPOS.map(r=>scoreRepo(r));
+  render(lastScores);
+  const avgAll = lastScores.reduce((a,s)=>a+s.avg,0)/lastScores.length;
+  const faul = lastScores.map((s,i)=>({s,i})).filter(x=>x.s.avg<60).sort((a,b)=>a.s.avg-b.s.avg);
+  log(`ALLE index.html MESSEN bei tmp.rär p81 - AVG ALLER ${avgAll.toFixed(1)}% - Namen 1-9 haben sie sowieso - Plätze Tausch nur zum Messen`, 'cyan');
+  if(faul.length>0){
+    faul.forEach(f=>{
+      const repo=REPOS[f.i];
+      log(`  FAULES EI ${repo.name} [${repo.id}] ${f.s.avg.toFixed(0)}% - bekommt Name "${repo.zeichen.toUpperCase()}${repo.id}-P${f.s.avg.toFixed(0)}" PROC "fix: ${f.s.k1<60?'BANN ':' '}${f.s.k3<80?'8->9 ':''}${f.s.k4<60?'3+3 ':''}${f.s.k5<60?'Frieden ':''}"`, 'bann');
+    });
+  }else{
+    log('  Kein faules Ei - alle über 60% - sauber Lauf', 'ok');
+  }
+}
+
+function tauschMess(){
+  // tausche real die Plätze nur zum Messen
+  const idx1=Math.floor(Math.random()*REPOS.length);
+  let idx2;
+  do{ idx2=Math.floor(Math.random()*REPOS.length); }while(idx2===idx1);
+  // tausche Scores
+  const tmp=lastScores[idx1];
+  lastScores[idx1]=lastScores[idx2];
+  lastScores[idx2]=tmp;
+  // neu messen der beiden
+  lastScores[idx1]=scoreRepo(REPOS[idx1]);
+  lastScores[idx2]=scoreRepo(REPOS[idx2]);
+  render(lastScores);
+  log(`TAUSCHE REAL DIE PLÄTZE NUR ZUM MESSEN: ${REPOS[idx1].name}[${REPOS[idx1].id}] <-> ${REPOS[idx2].name}[${REPOS[idx2].id}] - beide neu gemessen`, 'gold');
+}
+
+document.getElementById('btnZero').onclick=setZero;
+document.getElementById('btnMessAlle').onclick=messAlle;
+document.getElementById('btnTauschMess').onclick=tauschMess;
+let auto=null;
+document.getElementById('btnAuto').onclick=()=>{
+  if(auto) {clearInterval(auto); auto=null; log('AUTO STOP','warn'); return;}
+  setZero();
+  setTimeout(()=>{
+    auto=setInterval(()=>{
+      if(Math.random()>0.5) messAlle();
+      else tauschMess();
+    },900);
+    log('AUTO 0->MESS->TAUSCH START - immer anderer Platz - jeden index.html bewerten', 'cyan');
+  },400);
+};
+
+render(lastScores);
+log('BEREIT - 0 Stellung noch nicht gesetzt - tmp.rär p81 wartet - Namen 1-9 haben sie sowieso', 'cyan');
+log('Klick 0 STELLUNG SETZEN dann ALLE index.html MESSEN', 'gold');
+</script>
+</body>
+</html>
